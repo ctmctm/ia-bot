@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 import xml.etree.ElementTree as ET
-import sys, tweepy, random, time, datetime, urllib, internetarchive, itertools, argparse
+import sys 
+import tweepy
+import random
+import time
+import datetime
+import urllib 
+import internetarchive
+import itertools
+import argparse
 import string
 import json
 import auth
@@ -77,14 +85,11 @@ def getRandomItem():
 		print('Failed with error %s' % (e))
 		sys.exit()
 
-def getMetadata(tag):
+def getMetadata(id, tag):
 	global item
-	try:
-		item
-	except:
-		vprint('getting metadata. . . ')
-		item = internetarchive.get_item(randomID)	
-		vprint('. . .done!\n')
+	vprint('getting ' + tag + ' metadata for '+ id + '. . . ')
+	item = internetarchive.get_item(id)	
+	vprint('. . .done!\n')
 
 	try:
 		data = item.metadata[tag]
@@ -188,14 +193,14 @@ def generateBookURL(id, leafNumber):
 					return bookURL
 
 
-def formatTweet():
+def formatTweet(randomID):
 	global leafNumber
 	global tweetData
 	global tweet
 	#generate tweet-friendly title
-	full_title = getMetadata('title')
-	year = getMetadata('date')
-	subjects = getMetadata('subject')
+	full_title = getMetadata(randomID, 'title')
+	year = getMetadata(randomID, 'date')
+	subjects = getMetadata(randomID, 'subject')
 	tweet = ''
 	tweet_length = len('From        (year) ') + 23
 	title_length = 0
@@ -244,11 +249,11 @@ def formatTweet():
 	
 	bookURL = ''
 	bookURL = generateBookURL(randomID, leafNumber)
-	vprint('\n' + url + '\n')
-	tweet = 'From \"' +  title + '\" (' + year +') ' + subject_string + ' '
+	vprint('\n\n' + url + '\n\n')
+	tweet = 'From \"' +  title + '\" (' + year +') ' + subject_string + ' \n'
 	#url length in a tweet always = 23
 	tweet = tweet + bookURL
-	vprint(tweet + '\n' + '(' + str(len(tweet)) + ' characters)')
+	vprint(tweet + '\n' + '(' + str(len(tweet)) + ' characters)\n')
 
 def postPhoto():
 	global keys
@@ -257,7 +262,7 @@ def postPhoto():
 	access_token = keys['access_token']
 	access_token_secret = keys['access_token_secret']
 
-	formatTweet()
+	formatTweet(randomID)
 	bot_auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	bot_auth.set_access_token(access_token, access_token_secret)
 	bot_api = tweepy.API(bot_auth)
@@ -341,14 +346,15 @@ def main():
 
 
 	if offlineMode == False:
+		item = None
 		randomID = getRandomItem()
 		downloadFile(randomID, 'scandata.xml')
 	
 	vprint( 'parsing scandata. . . ')
 	scanData = parseXML('scandata')
-	vprint('. . .done\n')
 	#next line makes sure we have a value for randomID even if we need to read it from XML
 	randomID = scanData['root'][0][0].text
+	vprint('. . .done\n')
 
 	if foldoutMode == True:
 		vprint('checking %s. . . ' % (randomID))
@@ -356,10 +362,10 @@ def main():
 	else:
 		anyPage()
 	
-	
+	print('\ndone!\n')
+
 	if args.timer:
 		takeARest()
-	print('done!')
 	
 	
 main()
