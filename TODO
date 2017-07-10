@@ -1,0 +1,10 @@
+REWRITE getmetadata function to be universal and handle errors whensearxh results teturn something other than a book
+
+
+Add stats stuff using search results, republishdate, meta.xml:
+	pages published this week, pages published this month, pages published all time (?)
+	after you clock out for the day: random pages published today
+
+	weekly stats: page published, % of each language, % of each century
+
+OAUTH webpagenintegration so other ppl can use this
