@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 import xml.etree.ElementTree as ET
-import sys, tweepy, random, time, datetime, urllib, internetarchive, itertools, argparse
+import sys 
+import tweepy
+import random
+import time
+import datetime
+import urllib 
+import internetarchive
+import itertools
+import argparse
 import string
 import json
 import auth
