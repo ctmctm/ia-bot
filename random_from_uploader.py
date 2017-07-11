@@ -274,7 +274,7 @@ def postPhoto():
 			tweetData = bot_api.update_with_media('./files/leaf.jpg', status = tweet)
 		except Exception as e:
 			print('\n Error authenticating while Tweeting...\n\n')
-			keys = auth.authorize()			
+			keys = auth.getAuthFile()			
 			postPhoto()
 		vprint('. . .tweeted tweet id %s!\n\n' % (tweetData.id))
 	#sys.exit()
