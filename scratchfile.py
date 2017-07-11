@@ -202,7 +202,7 @@ def formatTweet(randomID):
 	year = getMetadata(randomID, 'date')
 	subjects = getMetadata(randomID, 'subject')
 	tweet = ''
-	tweet_length = len('From        (year) ') + 23
+	tweet_length = len('From        (year) ') + 24
 	title_length = 0
 	title = ''
 	subject_string = ''
@@ -273,9 +273,11 @@ def postPhoto():
 		try:
 			tweetData = bot_api.update_with_media('./files/leaf.jpg', status = tweet)
 		except Exception as e:
-			print('\n Error authenticating while Tweeting...\n\n')
-			keys = auth.authorize()			
-			postPhoto()
+			print(e)
+			print('\n Error  while Tweeting...\n\n')
+			#keys = auth.authorize()			
+			#postPhoto()
+			sys.exit()
 		vprint('. . .tweeted tweet id %s!\n\n' % (tweetData.id))
 	#sys.exit()
 
