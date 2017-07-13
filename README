@@ -2,9 +2,9 @@ iabot
 
 This project is a work in progress, and is the first project that I've uploaded to github.
 
-iabot a twitter bot that you can see in action at [@ctm_books](http://twitter.com/ctm_books).
+iabot a twitter bot that you can see in action at http://twitter.com/ctm_books.
 
-It searches the [Internet Archive](http://archive.org) for books that I personally digitized, 
+It searches the Internet Archive for books that I personally digitized, 
 republished, and uploaded. It chooses a random book, and then a random page from within that book.
 It then tweets out an that page with whatever twitter account it has been authenticated with.
 
