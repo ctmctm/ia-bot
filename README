@@ -1,1 +1,45 @@
-Testing! Will update this later.
+iabot
+
+This project is a work in progress, and is the first project that I've uploaded to github.
+
+iabot a twitter bot that you can see in action at [@ctm_books](http://twitter.com/ctm_books).
+
+It searches the [Internet Archive](http://archive.org) for books that I personally digitized, 
+republished, and uploaded. It chooses a random book, and then a random page from within that book.
+It then tweets out an that page with whatever twitter account it has been authenticated with.
+
+iabot is written in Python3 and requires the tweepy and internetarchive libraries to be installed 
+(among others)
+
+
+```
+python3 random_from_uploader.py -h
+usage: random_from_uploader.py [-h] [-v] [-r | -f] [-d] [-o] [-t] searchterm
+
+randomly choose an image from an IA book and tweet it
+
+positional arguments:
+  searchterm          what to search for using IA's advance search --
+                       generally part of an uploader's username
+                        
+optional arguments:
+  -h, --help          show this help message and exit
+  -v, --verbose       display hella feedback
+  -r, --random        gives a 35 percent chance of tweeting a foldout, as set
+  				      by foldoutChance
+  -f, --foldout       tweet a foldout instead of a page
+  -d, --disableTweet  run through motions of script but don't actually tweet
+  -o, --offline       use existing scandata.xml to test offline components of
+                      script
+  -t, --timer         will tweet according to other paramters after a random
+                      interval between 42 and 260 mintues
+
+example:
+
+./random_from_uploader.py christian-mccusker -vft
+
+will search IA for items whose uploader contains 'christian-mccusker' that also contain foldout pages,
+and will tweet them at random intervals. It will be in verbose mode as it does this and provide
+debugging information to the command line.
+
+ ```                                                                                                       
