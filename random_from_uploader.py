@@ -124,6 +124,7 @@ def getRandomPage(identifier, leafCount):
 	leafNumber = str(random.randrange(5, leafCount - 4))
 	
 	#check if page we're going to post is deleted...
+	vprint('Making sure page isn\'t deleted. . . ')
 	deleted = getPagetypes('Delete', scanData['root'])
 	if leafNumber in deleted:
 		vprint('Whoops! Chose a deleted page, starting over...!\n')
@@ -131,6 +132,7 @@ def getRandomPage(identifier, leafCount):
 			print('Can\'t search IA in offline mode!')
 			sys.exit()
 		main()
+	vprint('. . .ok!')
 	url = baseURL + leafNumber.zfill(4) + '.jpg'
 	vprint('downloading image. . . ')
 	urllib.request.urlretrieve(url, "./files/leaf.jpg")
