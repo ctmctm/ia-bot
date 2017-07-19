@@ -7,4 +7,6 @@ Add stats stuff using search results, republishdate, meta.xml:
 
 	weekly stats: page published, % of each language, % of each century
 
-OAUTH webpagenintegration so other ppl can use this
+Before tweeting, check to make sure image hasn't been deleted
+
+Before tweeting, check that all characters in hashtags are alphanumeric -- otherwise throw hashtag away
