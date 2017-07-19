@@ -10,3 +10,14 @@ Add stats stuff using search results, republishdate, meta.xml:
 Before tweeting, check to make sure image hasn't been deleted
 
 Before tweeting, check that all characters in hashtags are alphanumeric -- otherwise throw hashtag away
+
+Rewrite using classes:
+e.g.
+
+randomID = getRandomID()
+currentBook = book(randomID)
+
+pagenum = currentBook.pagenum()
+url = currentBook.url()
+delete = currentBook.deletedPages()
+
