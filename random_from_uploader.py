@@ -122,6 +122,15 @@ def getRandomPage(identifier, leafCount):
 	global leafNumber
 	baseURL = 'http://archive.org/download/' + identifier + '/' + identifier + '_jp2.zip/' + identifier + '_jp2%2F' + identifier + '_' 
 	leafNumber = str(random.randrange(5, leafCount - 4))
+	
+	#check if page we're going to post is deleted...
+	deleted = getPagetypes('Delete', scanData['root'])
+	if leafNumber in deleted:
+		vprint('Whoops! Chose a deleted page, starting over...!\n')
+		if offlineMode:
+			print('Can\'t search IA in offline mode!')
+			sys.exit()
+		main()
 	url = baseURL + leafNumber.zfill(4) + '.jpg'
 	vprint('downloading image. . . ')
 	urllib.request.urlretrieve(url, "./files/leaf.jpg")
@@ -140,27 +149,35 @@ def getRandomFoldout(identifier, foldoutList):
 	vprint('. . .downloaded\n')
 	return url
 
-def findFoldouts(scanData):
+def getPagetypes(pageType, scanData):
+	leafnums = []
 	for page in scanData.iter('page'):
-		pageType = page.find('pageType').text	
-		if pageType == "Foldout":
-			pageNum = page.attrib['leafNum']
-			foldouts.append(pageNum)
-	return foldouts
+		pt = page.find('pageType').text	
+		if pt == pageType:
+			leafNum = page.attrib['leafNum']
+			leafnums.append(leafNum)
+	return leafnums
+
+## change findFoldouts to getPagetype, have it return 'foldout' or 'deleted' etc
+##<pageType>Delete</pageType>
+##<pageType>Foldout</pageType>
+##<pageType>Normal</pageType>
 
 def anyPage():
 	global url
 	url = getRandomPage(randomID, scanData['leafCount'])
 	postPhoto()
 
+	
+
 def anyFoldout():
 	global randomID
 	global scanData
 	global url
-	foldouts = findFoldouts(scanData['root'])
+	foldouts = getPagetypes('Foldout', scanData['root'])
 	if len(foldouts) == 0:
 		vprint('. . .%s has no foldouts' % (randomID))
-		print('this code should never run')
+		print('this code should rarely run--only if running in offline mode on a book w/o foldouts')
 		randomID = getRandomItem()
 		downloadFile(randomID, 'scandata.xml')
 		vprint('checking %s. . . ' % (randomID))
@@ -173,6 +190,8 @@ def anyFoldout():
 def generateBookURL(id, leafNumber):
 #	generally, the page on the other side of a foldout has an asserted page number
 #	if it doesn't, we'll return the details link instead of a 2up link
+
+## split out a getPageNumber function
 	baseURL = 'https://archive.org/stream/' + id 
 
 	for page in scanData['root'].iter('page'):
