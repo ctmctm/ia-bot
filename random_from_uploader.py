@@ -132,7 +132,7 @@ def getRandomPage(identifier, leafCount):
 			print('Can\'t search IA in offline mode!')
 			sys.exit()
 		main()
-	vprint('. . .ok!')
+	vprint('. . .ok!\n')
 	url = baseURL + leafNumber.zfill(4) + '.jpg'
 	vprint('downloading image. . . ')
 	urllib.request.urlretrieve(url, "./files/leaf.jpg")
